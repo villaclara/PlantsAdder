@@ -10,7 +10,7 @@ namespace PlantsLibrary.Application
 {
 	public class PlantWorker : IPlantApplicable, IGetPlant
 	{
-		private ApplicationContext _context;
+		private readonly ApplicationContext _context;
 
 		public PlantWorker(ApplicationContext context)
 		{
@@ -34,9 +34,9 @@ namespace PlantsLibrary.Application
 			throw new NotImplementedException();
 		}
 
-		public ICollection<PlantModel> GetAllPlants()
+		public List<PlantModel> GetAllPlants()
 		{
-			throw new NotImplementedException();
+			return _context.Plants.ToList() ?? new List<PlantModel>();
 		}
 
 		public PlantModel? GetPlantById(int id)

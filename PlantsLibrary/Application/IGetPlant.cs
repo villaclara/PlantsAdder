@@ -9,7 +9,7 @@ namespace PlantsLibrary.Application
 {
 	public interface IGetPlant
 	{
-		ICollection<PlantModel> GetAllPlants();
+		List<PlantModel> GetAllPlants();
 
 		PlantModel? GetPlantByName(string name);
 

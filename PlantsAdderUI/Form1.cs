@@ -9,30 +9,59 @@ namespace PlantsAdderUI
 		private readonly PlantsLibrary.Database.ApplicationContext _context = new();
 
 
+		private readonly PlantWorker _worker;
+		private List<PlantModel> plantModels;
+
+		private IList<string> _plantNamesList;
+
 		public Form1()
 		{
 			InitializeComponent();
 
+			_worker = new PlantWorker(_context);
+
+			plantModels = _worker.GetAllPlants();
+
 
 			ChangeEnabledOfRightSide(enabled: false);
 
-			list.Add("111");
-			list.Add("2");
-			list.Add("3");
-			list.Add("...");
+			//var names = from models in plantModels
+			//		select models.Name;
 
-			listBox1.DataSource = list;
+			//_plantNamesList = names.ToList();
+
+			plantModels.Add(new PlantModel()
+			{
+				Name = "...",
+			});
+
+
+			listBox1.DataSource = plantModels;
+			listBox1.DisplayMember = "Name";
 			listBox1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
+
+			
 
 
 		}
 
 		private void ListBox1_SelectedIndexChanged(object? sender, EventArgs e)
 		{
-			textBoxPlantDesc.Text = list[listBox1.SelectedIndex].ToString();
+			textBoxPlantName.Text = plantModels[listBox1.SelectedIndex].Name;
+			textBoxPlantLink.Text = plantModels[listBox1.SelectedIndex].Link;
+			textBoxPlantDesc.Text = plantModels[listBox1.SelectedIndex].Description;
+			textBoxPlantHandling.Text = plantModels[listBox1.SelectedIndex].Handling;
 
+
+			
+
+			//pictureBox1.Image = plantModels[listBox1.SelectedIndex].ImageBytes;
+
+			
+			
+			
 			// if selected last item then we want to add new plant
-			if (list.Count == listBox1.SelectedIndex + 1)
+			if (plantModels.Count == listBox1.SelectedIndex + 1)
 			{
 				textBoxPlantHandling.Text = "";
 				textBoxPlantName.Text = "";
