@@ -48,35 +48,16 @@
 			labelHandling = new Label();
 			labelLink = new Label();
 			labelName = new Label();
-			AddPlantTabPage = new TabPage();
-			pictureBox2 = new PictureBox();
-			groupBox2 = new GroupBox();
-			labelSelectedImg = new Label();
-			buttonSelectImg = new Button();
-			buttonAddPlant1 = new Button();
-			labelImage = new Label();
-			textBoxAddHandling = new TextBox();
-			textBoxAddDescription = new TextBox();
-			textBoxAddLink = new TextBox();
-			textBoxAddName = new TextBox();
-			label1 = new Label();
-			label2 = new Label();
-			label3 = new Label();
-			label4 = new Label();
 			openFileDialog1 = new OpenFileDialog();
 			tabControl1.SuspendLayout();
 			PlantTabPage.SuspendLayout();
 			groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-			AddPlantTabPage.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-			groupBox2.SuspendLayout();
 			SuspendLayout();
 			// 
 			// tabControl1
 			// 
 			tabControl1.Controls.Add(PlantTabPage);
-			tabControl1.Controls.Add(AddPlantTabPage);
 			tabControl1.Location = new Point(-4, -1);
 			tabControl1.Name = "tabControl1";
 			tabControl1.SelectedIndex = 0;
@@ -166,6 +147,7 @@
 			buttonSelectImage.TabIndex = 17;
 			buttonSelectImage.Text = "Select";
 			buttonSelectImage.UseVisualStyleBackColor = true;
+			buttonSelectImage.Click += ButtonSelectImg_Click;
 			// 
 			// buttonDelPlant
 			// 
@@ -193,7 +175,7 @@
 			buttonAddPlant.TabIndex = 14;
 			buttonAddPlant.Text = "Add Plant";
 			buttonAddPlant.UseVisualStyleBackColor = true;
-			buttonAddPlant.Click += buttonAddPlant_Click;
+			buttonAddPlant.Click += ButtonAddPlant_Click;
 			// 
 			// textBoxPlantHandling
 			// 
@@ -278,150 +260,6 @@
 			labelName.TabIndex = 1;
 			labelName.Text = "Name";
 			// 
-			// AddPlantTabPage
-			// 
-			AddPlantTabPage.Controls.Add(pictureBox2);
-			AddPlantTabPage.Controls.Add(groupBox2);
-			AddPlantTabPage.Location = new Point(4, 24);
-			AddPlantTabPage.Name = "AddPlantTabPage";
-			AddPlantTabPage.Padding = new Padding(3);
-			AddPlantTabPage.Size = new Size(1018, 670);
-			AddPlantTabPage.TabIndex = 1;
-			AddPlantTabPage.Text = "AddPlant";
-			AddPlantTabPage.UseVisualStyleBackColor = true;
-			// 
-			// pictureBox2
-			// 
-			pictureBox2.Location = new Point(664, 146);
-			pictureBox2.Name = "pictureBox2";
-			pictureBox2.Size = new Size(347, 312);
-			pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-			pictureBox2.TabIndex = 7;
-			pictureBox2.TabStop = false;
-			// 
-			// groupBox2
-			// 
-			groupBox2.Controls.Add(labelSelectedImg);
-			groupBox2.Controls.Add(buttonSelectImg);
-			groupBox2.Controls.Add(buttonAddPlant1);
-			groupBox2.Controls.Add(labelImage);
-			groupBox2.Controls.Add(textBoxAddHandling);
-			groupBox2.Controls.Add(textBoxAddDescription);
-			groupBox2.Controls.Add(textBoxAddLink);
-			groupBox2.Controls.Add(textBoxAddName);
-			groupBox2.Controls.Add(label1);
-			groupBox2.Controls.Add(label2);
-			groupBox2.Controls.Add(label3);
-			groupBox2.Controls.Add(label4);
-			groupBox2.Location = new Point(12, 6);
-			groupBox2.Name = "groupBox2";
-			groupBox2.Size = new Size(646, 658);
-			groupBox2.TabIndex = 6;
-			groupBox2.TabStop = false;
-			// 
-			// labelSelectedImg
-			// 
-			labelSelectedImg.AutoSize = true;
-			labelSelectedImg.Location = new Point(247, 571);
-			labelSelectedImg.Name = "labelSelectedImg";
-			labelSelectedImg.Size = new Size(0, 15);
-			labelSelectedImg.TabIndex = 12;
-			// 
-			// buttonSelectImg
-			// 
-			buttonSelectImg.Location = new Point(125, 567);
-			buttonSelectImg.Name = "buttonSelectImg";
-			buttonSelectImg.Size = new Size(116, 23);
-			buttonSelectImg.TabIndex = 11;
-			buttonSelectImg.Text = "Select";
-			buttonSelectImg.UseVisualStyleBackColor = true;
-			buttonSelectImg.Click += ButtonSelectImg_Click;
-			// 
-			// buttonAddPlant1
-			// 
-			buttonAddPlant1.Location = new Point(125, 606);
-			buttonAddPlant1.Name = "buttonAddPlant1";
-			buttonAddPlant1.Size = new Size(116, 46);
-			buttonAddPlant1.TabIndex = 10;
-			buttonAddPlant1.Text = "Add Plant";
-			buttonAddPlant1.UseVisualStyleBackColor = true;
-			buttonAddPlant1.Click += ButtonAddPlant1_Click;
-			// 
-			// labelImage
-			// 
-			labelImage.AutoSize = true;
-			labelImage.Location = new Point(21, 571);
-			labelImage.Name = "labelImage";
-			labelImage.Size = new Size(74, 15);
-			labelImage.TabIndex = 9;
-			labelImage.Text = "Select Image";
-			// 
-			// textBoxAddHandling
-			// 
-			textBoxAddHandling.Location = new Point(125, 318);
-			textBoxAddHandling.Multiline = true;
-			textBoxAddHandling.Name = "textBoxAddHandling";
-			textBoxAddHandling.Size = new Size(507, 242);
-			textBoxAddHandling.TabIndex = 8;
-			// 
-			// textBoxAddDescription
-			// 
-			textBoxAddDescription.Location = new Point(125, 92);
-			textBoxAddDescription.Multiline = true;
-			textBoxAddDescription.Name = "textBoxAddDescription";
-			textBoxAddDescription.Size = new Size(507, 216);
-			textBoxAddDescription.TabIndex = 7;
-			// 
-			// textBoxAddLink
-			// 
-			textBoxAddLink.Location = new Point(125, 50);
-			textBoxAddLink.Name = "textBoxAddLink";
-			textBoxAddLink.Size = new Size(272, 23);
-			textBoxAddLink.TabIndex = 6;
-			// 
-			// textBoxAddName
-			// 
-			textBoxAddName.Location = new Point(125, 16);
-			textBoxAddName.Name = "textBoxAddName";
-			textBoxAddName.Size = new Size(272, 23);
-			textBoxAddName.TabIndex = 5;
-			// 
-			// label1
-			// 
-			label1.AutoSize = true;
-			label1.Location = new Point(19, 100);
-			label1.Name = "label1";
-			label1.Size = new Size(67, 15);
-			label1.TabIndex = 2;
-			label1.Text = "Description";
-			// 
-			// label2
-			// 
-			label2.AutoSize = true;
-			label2.Location = new Point(19, 326);
-			label2.Name = "label2";
-			label2.Size = new Size(56, 15);
-			label2.TabIndex = 4;
-			label2.Text = "Handling";
-			// 
-			// label3
-			// 
-			label3.AutoSize = true;
-			label3.Location = new Point(19, 58);
-			label3.Name = "label3";
-			label3.Size = new Size(29, 15);
-			label3.TabIndex = 3;
-			label3.Text = "Link";
-			// 
-			// label4
-			// 
-			label4.AutoSize = true;
-			label4.Location = new Point(19, 24);
-			label4.Name = "label4";
-			label4.Size = new Size(39, 15);
-			label4.TabIndex = 1;
-			label4.Text = "Name";
-			// 
 			// openFileDialog1
 			// 
 			openFileDialog1.FileName = "openFileDialog1";
@@ -440,10 +278,6 @@
 			groupBox1.ResumeLayout(false);
 			groupBox1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-			AddPlantTabPage.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-			groupBox2.ResumeLayout(false);
-			groupBox2.PerformLayout();
 			ResumeLayout(false);
 		}
 
@@ -451,26 +285,12 @@
 
 		private TabControl tabControl1;
 		private TabPage PlantTabPage;
-		private TabPage AddPlantTabPage;
 		private ListBox listBox1;
 		private Label labelName;
 		private Label labelLink;
 		private Label labelDesc;
 		private GroupBox groupBox1;
 		private Label labelHandling;
-		private GroupBox groupBox2;
-		private Label labelImage;
-		private TextBox textBoxAddHandling;
-		private TextBox textBoxAddDescription;
-		private TextBox textBoxAddLink;
-		private TextBox textBoxAddName;
-		private Label label1;
-		private Label label2;
-		private Label label3;
-		private Label label4;
-		private Button buttonAddPlant1;
-		private Label labelSelectedImg;
-		private Button buttonSelectImg;
 		private OpenFileDialog openFileDialog1;
 		private Label labelDetailedInfo;
 		private Label labelTitle;
@@ -479,7 +299,6 @@
 		private TextBox textBoxPlantHandling;
 		private TextBox textBoxPlantDesc;
 		private TextBox textBoxPlantLink;
-		private PictureBox pictureBox2;
 		private Button buttonDelPlant;
 		private Button buttonEditPlant;
 		private Button buttonAddPlant;

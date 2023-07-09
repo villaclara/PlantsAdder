@@ -1,8 +1,13 @@
+using PlantsLibrary.Application;
+using PlantsLibrary.Model;
+
 namespace PlantsAdderUI
 {
 	public partial class Form1 : Form
 	{
 		List<string> list = new();
+		private readonly PlantsLibrary.Database.ApplicationContext _context = new();
+
 
 		public Form1()
 		{
@@ -33,11 +38,9 @@ namespace PlantsAdderUI
 				textBoxPlantName.Text = "";
 				textBoxPlantLink.Text = "";
 				textBoxPlantDesc.Text = "";
-
 				ChangeEnabledOfRightSide(enabled: true);
 				ChangeStateBotButtons(enabled: false);
 			}
-
 			else
 			{
 				ChangeEnabledOfRightSide(enabled: false);
@@ -52,9 +55,9 @@ namespace PlantsAdderUI
 			if (openFileDialog1.ShowDialog(this) == DialogResult.OK)
 			{
 				var chosenFile = openFileDialog1.FileName;
-				labelSelectedImg.Text = chosenFile;
+				labelSelectedImage.Text = chosenFile;
 				Image newImage = Image.FromFile(chosenFile);
-				pictureBox2.Image = newImage;
+				pictureBox1.Image = newImage;
 			}
 
 
@@ -83,13 +86,52 @@ namespace PlantsAdderUI
 			buttonDelPlant.Enabled = enabled;
 		}
 
-		private void buttonAddPlant_Click(object sender, EventArgs e)
+		private void ButtonAddPlant_Click(object sender, EventArgs e)
 		{
+			var newPlant = new PlantModel()
+			{
+				Name = textBoxPlantName.Text,
+				Link = textBoxPlantLink.Text,
+				Description = textBoxPlantDesc.Text,
+				Handling = textBoxPlantHandling.Text,
+				ImageBytes = ImageToBytes(labelSelectedImage.Text)
 
+			};
+
+			var result = new PlantWorker(_context).AddPlantToDBAsync(newPlant).GetAwaiter().GetResult();
+
+			if (result)
+			{
+				MessageBox.Show("plant added to db");
+				ClearTextBoxes();
+
+			}
 		}
 
 		private void ButtonAddPlant1_Click(object sender, EventArgs e)
 		{
+
+		}
+
+
+		private byte[] ImageToBytes(string imgName)
+		{
+			byte[] imgdata;
+			using var fs = new FileStream(imgName, FileMode.Open, FileAccess.Read);
+			using var br = new BinaryReader(fs);
+			imgdata = br.ReadBytes((int)fs.Length);
+			return imgdata;
+		}
+
+
+		private void ClearTextBoxes()
+		{
+			textBoxPlantHandling.Text = "";
+			textBoxPlantName.Text = "";
+			textBoxPlantLink.Text = "";
+			textBoxPlantDesc.Text = "";
+			labelSelectedImage.Text = "";
+			pictureBox1.Image = null;
 
 		}
 	}
