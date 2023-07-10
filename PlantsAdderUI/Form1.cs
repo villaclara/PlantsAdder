@@ -20,46 +20,26 @@ namespace PlantsAdderUI
 
 			_worker = new PlantWorker(_context);
 
-			plantModels = _worker.GetAllPlants();
+			UpdatePlantsListBox();
 
 
 			ChangeEnabledOfRightSide(enabled: false);
 
-			//var names = from models in plantModels
-			//		select models.Name;
-
-			//_plantNamesList = names.ToList();
-
-			plantModels.Add(new PlantModel()
-			{
-				Name = "...",
-			});
 
 
-			listBox1.DataSource = plantModels;
-			listBox1.DisplayMember = "Name";
 			listBox1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
 
-			
+
 
 
 		}
 
 		private void ListBox1_SelectedIndexChanged(object? sender, EventArgs e)
 		{
-			textBoxPlantName.Text = plantModels[listBox1.SelectedIndex].Name;
-			textBoxPlantLink.Text = plantModels[listBox1.SelectedIndex].Link;
-			textBoxPlantDesc.Text = plantModels[listBox1.SelectedIndex].Description;
-			textBoxPlantHandling.Text = plantModels[listBox1.SelectedIndex].Handling;
+
+			labelSelectedImage.Text = "";
 
 
-			
-
-			//pictureBox1.Image = plantModels[listBox1.SelectedIndex].ImageBytes;
-
-			
-			
-			
 			// if selected last item then we want to add new plant
 			if (plantModels.Count == listBox1.SelectedIndex + 1)
 			{
@@ -67,13 +47,34 @@ namespace PlantsAdderUI
 				textBoxPlantName.Text = "";
 				textBoxPlantLink.Text = "";
 				textBoxPlantDesc.Text = "";
+				pictureBox1.Image = null;
 				ChangeEnabledOfRightSide(enabled: true);
 				ChangeStateBotButtons(enabled: false);
 			}
+
+			// else selected any of database item and we display info about it
 			else
 			{
 				ChangeEnabledOfRightSide(enabled: false);
 				ChangeStateBotButtons(enabled: true);
+
+				textBoxPlantName.Text = plantModels[listBox1.SelectedIndex].Name;
+				textBoxPlantLink.Text = plantModels[listBox1.SelectedIndex].Link;
+				textBoxPlantDesc.Text = plantModels[listBox1.SelectedIndex].Description;
+				textBoxPlantHandling.Text = plantModels[listBox1.SelectedIndex].Handling;
+
+
+				// checking if the image is present
+				if (plantModels[listBox1.SelectedIndex].ImageBytes.Length > 0)
+				{
+					MemoryStream stream = new MemoryStream(plantModels[listBox1.SelectedIndex].ImageBytes);
+					pictureBox1.Image = Image.FromStream(stream);
+				}
+				else
+				{
+					pictureBox1.Image = null;
+				}
+
 			}
 
 		}
@@ -91,12 +92,6 @@ namespace PlantsAdderUI
 
 
 		}
-
-		private void button3_Click(object sender, EventArgs e)
-		{
-
-		}
-
 
 
 		private void ChangeEnabledOfRightSide(bool enabled)
@@ -123,7 +118,7 @@ namespace PlantsAdderUI
 				Link = textBoxPlantLink.Text,
 				Description = textBoxPlantDesc.Text,
 				Handling = textBoxPlantHandling.Text,
-				ImageBytes = ImageToBytes(labelSelectedImage.Text)
+				ImageBytes = ImageToBytes(labelSelectedImage.Text),
 
 			};
 
@@ -134,18 +129,21 @@ namespace PlantsAdderUI
 				MessageBox.Show("plant added to db");
 				ClearTextBoxes();
 
+				UpdatePlantsListBox();
+
 			}
-		}
-
-		private void ButtonAddPlant1_Click(object sender, EventArgs e)
-		{
-
 		}
 
 
 		private byte[] ImageToBytes(string imgName)
 		{
+
+
 			byte[] imgdata;
+
+			if (imgName == "")
+				return Array.Empty<byte>();
+
 			using var fs = new FileStream(imgName, FileMode.Open, FileAccess.Read);
 			using var br = new BinaryReader(fs);
 			imgdata = br.ReadBytes((int)fs.Length);
@@ -162,6 +160,32 @@ namespace PlantsAdderUI
 			labelSelectedImage.Text = "";
 			pictureBox1.Image = null;
 
+		}
+
+
+		private void UpdatePlantsListBox()
+		{
+			plantModels = _worker.GetAllPlants();
+			plantModels.Add(new PlantModel()
+			{
+				Name = "...",
+			});
+
+			listBox1.DataSource = plantModels;
+			listBox1.DisplayMember = "Name";
+		}
+
+		private void buttonDelPlant_Click(object sender, EventArgs e)
+		{
+			var choice = MessageBox.Show("delete?", "???", MessageBoxButtons.OKCancel);
+			if (choice == DialogResult.OK)
+			{
+				new PlantWorker(_context).DeletePlantByName(plantModels[listBox1.SelectedIndex]).GetAwaiter().GetResult();
+
+				UpdatePlantsListBox();
+			}
+
+			
 		}
 	}
 }

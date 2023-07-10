@@ -157,6 +157,7 @@
 			buttonDelPlant.TabIndex = 16;
 			buttonDelPlant.Text = "Delete Plant";
 			buttonDelPlant.UseVisualStyleBackColor = true;
+			buttonDelPlant.Click += buttonDelPlant_Click;
 			// 
 			// buttonEditPlant
 			// 

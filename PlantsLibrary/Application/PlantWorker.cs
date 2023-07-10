@@ -17,16 +17,18 @@ namespace PlantsLibrary.Application
 			_context = context;
 		}
 
-		public async Task<bool> AddPlantToDBAsync(PlantModel plantModel)
+		public async Task<bool> AddPlantToDBAsync(IPlantable plantModel)
 		{
-			_context.Plants.Add(plantModel);
+			_context.Plants.Add((PlantModel)plantModel);
 			await _context.SaveChangesAsync();
 			return true;
 		}
 
-		public bool DeletePlantByName(string plantName)
+		public async Task<bool> DeletePlantByName(IPlantable plantName)
 		{
-			throw new NotImplementedException();
+			_context.Plants.Remove((PlantModel)plantName);
+			await _context.SaveChangesAsync();
+			return true;
 		}
 
 		public bool EditPlantByName(string plantName)

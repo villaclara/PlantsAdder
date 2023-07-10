@@ -10,11 +10,11 @@ namespace PlantsLibrary.Application
 	// different functions with plants
 	public interface IPlantApplicable
 	{
-		Task<bool> AddPlantToDBAsync(PlantModel plantModel);
+		Task<bool> AddPlantToDBAsync(IPlantable plantModel);
 		
 		bool EditPlantByName(string plantName);
 		
-		bool DeletePlantByName(string plantName);
+		Task<bool> DeletePlantByName(IPlantable plantModel);
 
 	}
 }
