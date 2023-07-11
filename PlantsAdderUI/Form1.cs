@@ -5,14 +5,11 @@ namespace PlantsAdderUI
 {
 	public partial class Form1 : Form
 	{
-		List<string> list = new();
 		private readonly PlantsLibrary.Database.ApplicationContext _context = new();
 
 
 		private readonly PlantWorker _worker;
-		private List<PlantModel> plantModels;
-
-		private IList<string> _plantNamesList;
+		private List<PlantModel> plantModels = new();
 
 		public Form1()
 		{
@@ -25,11 +22,11 @@ namespace PlantsAdderUI
 
 			ChangeEnabledOfRightSide(enabled: false);
 
-
+			buttonSave.Visible = false;
 
 			listBox1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
 
-
+			SetFirstItemDisplayedAtStart();
 
 
 		}
@@ -175,7 +172,7 @@ namespace PlantsAdderUI
 			listBox1.DisplayMember = "Name";
 		}
 
-		private void buttonDelPlant_Click(object sender, EventArgs e)
+		private void ButtonDelPlant_Click(object sender, EventArgs e)
 		{
 			var choice = MessageBox.Show("delete?", "???", MessageBoxButtons.OKCancel);
 			if (choice == DialogResult.OK)
@@ -185,7 +182,55 @@ namespace PlantsAdderUI
 				UpdatePlantsListBox();
 			}
 
-			
+
+		}
+
+		private void ButtonEditPlant_Click(object sender, EventArgs e)
+		{
+			ChangeEnabledOfRightSide(enabled: true);
+			buttonAddPlant.Enabled = false;
+
+			buttonSave.Visible = true;
+		}
+
+		private void ButtonSave_Click(object sender, EventArgs e)
+		{
+
+			var editingplant = plantModels[listBox1.SelectedIndex];
+
+			using var _ctx = new PlantsLibrary.Database.ApplicationContext();
+			var pl = _ctx.Plants.FirstOrDefault(p => p.Name == editingplant.Name)!;
+			pl.Name = textBoxPlantName.Text;
+			pl.Description = textBoxPlantDesc.Text;
+			pl.Link = textBoxPlantLink.Text;
+			pl.Handling = textBoxPlantHandling.Text;
+
+			_ctx.SaveChanges();
+
+
+			ChangeEnabledOfRightSide(enabled: false);
+			ChangeStateBotButtons(enabled: true);
+			buttonSave.Visible = false;
+		}
+
+		private void SetFirstItemDisplayedAtStart()
+		{
+			textBoxPlantName.Text = plantModels[0].Name;
+			textBoxPlantLink.Text = plantModels[0].Link;
+			textBoxPlantDesc.Text = plantModels[0].Description;
+			textBoxPlantHandling.Text = plantModels[0].Handling;
+
+
+			// checking if the image is present
+			if (plantModels[0].ImageBytes.Length > 0)
+			{
+				MemoryStream stream = new MemoryStream(plantModels[0].ImageBytes);
+				pictureBox1.Image = Image.FromStream(stream);
+			}
+			else
+			{
+				pictureBox1.Image = null;
+			}
 		}
 	}
 }

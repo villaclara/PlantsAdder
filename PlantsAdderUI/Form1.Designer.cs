@@ -34,6 +34,7 @@
 			labelTitle = new Label();
 			listBox1 = new ListBox();
 			groupBox1 = new GroupBox();
+			buttonSave = new Button();
 			labelSelectedImage = new Label();
 			buttonSelectImage = new Button();
 			buttonDelPlant = new Button();
@@ -109,6 +110,7 @@
 			// 
 			// groupBox1
 			// 
+			groupBox1.Controls.Add(buttonSave);
 			groupBox1.Controls.Add(labelSelectedImage);
 			groupBox1.Controls.Add(buttonSelectImage);
 			groupBox1.Controls.Add(buttonDelPlant);
@@ -128,6 +130,16 @@
 			groupBox1.Size = new Size(788, 628);
 			groupBox1.TabIndex = 5;
 			groupBox1.TabStop = false;
+			// 
+			// buttonSave
+			// 
+			buttonSave.Location = new Point(580, 590);
+			buttonSave.Name = "buttonSave";
+			buttonSave.Size = new Size(93, 32);
+			buttonSave.TabIndex = 19;
+			buttonSave.Text = "Save";
+			buttonSave.UseVisualStyleBackColor = true;
+			buttonSave.Click += ButtonSave_Click;
 			// 
 			// labelSelectedImage
 			// 
@@ -157,7 +169,7 @@
 			buttonDelPlant.TabIndex = 16;
 			buttonDelPlant.Text = "Delete Plant";
 			buttonDelPlant.UseVisualStyleBackColor = true;
-			buttonDelPlant.Click += buttonDelPlant_Click;
+			buttonDelPlant.Click += ButtonDelPlant_Click;
 			// 
 			// buttonEditPlant
 			// 
@@ -167,6 +179,7 @@
 			buttonEditPlant.TabIndex = 15;
 			buttonEditPlant.Text = "Edit Plant";
 			buttonEditPlant.UseVisualStyleBackColor = true;
+			buttonEditPlant.Click += ButtonEditPlant_Click;
 			// 
 			// buttonAddPlant
 			// 
@@ -305,5 +318,6 @@
 		private Button buttonAddPlant;
 		private Button buttonSelectImage;
 		private Label labelSelectedImage;
+		private Button buttonSave;
 	}
 }
