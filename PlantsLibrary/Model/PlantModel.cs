@@ -8,7 +8,7 @@ namespace PlantsLibrary.Model
 {
 	public class PlantModel : IPlantable
 	{
-		public long Id { get; set; }
+		public int Id { get; }
 		public string Name { get; set; } = "";
 		public string Link { get; set; } = "";
 		public string Description { get; set; } = "";

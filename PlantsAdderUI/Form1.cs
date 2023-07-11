@@ -5,8 +5,6 @@ namespace PlantsAdderUI
 {
 	public partial class Form1 : Form
 	{
-		private readonly PlantsLibrary.Database.ApplicationContext _context = new();
-
 
 		private readonly PlantWorker _worker;
 		private List<PlantModel> plantModels = new();
@@ -15,7 +13,7 @@ namespace PlantsAdderUI
 		{
 			InitializeComponent();
 
-			_worker = new PlantWorker(_context);
+			_worker = new PlantWorker();
 
 			UpdatePlantsListBox();
 
@@ -119,7 +117,7 @@ namespace PlantsAdderUI
 
 			};
 
-			var result = new PlantWorker(_context).AddPlantToDBAsync(newPlant).GetAwaiter().GetResult();
+			var result = new PlantWorker().AddPlantToDBAsync(newPlant).GetAwaiter().GetResult();
 
 			if (result)
 			{
@@ -162,7 +160,7 @@ namespace PlantsAdderUI
 
 		private void UpdatePlantsListBox()
 		{
-			plantModels = _worker.GetAllPlants();
+			plantModels = new PlantWorker().GetAllPlants();
 			plantModels.Add(new PlantModel()
 			{
 				Name = "...",
@@ -177,7 +175,7 @@ namespace PlantsAdderUI
 			var choice = MessageBox.Show("delete?", "???", MessageBoxButtons.OKCancel);
 			if (choice == DialogResult.OK)
 			{
-				new PlantWorker(_context).DeletePlantByName(plantModels[listBox1.SelectedIndex]).GetAwaiter().GetResult();
+				new PlantWorker().DeletePlantByName(plantModels[listBox1.SelectedIndex]).GetAwaiter().GetResult();
 
 				UpdatePlantsListBox();
 			}
@@ -198,19 +196,25 @@ namespace PlantsAdderUI
 
 			var editingplant = plantModels[listBox1.SelectedIndex];
 
-			using var _ctx = new PlantsLibrary.Database.ApplicationContext();
-			var pl = _ctx.Plants.FirstOrDefault(p => p.Name == editingplant.Name)!;
-			pl.Name = textBoxPlantName.Text;
-			pl.Description = textBoxPlantDesc.Text;
-			pl.Link = textBoxPlantLink.Text;
-			pl.Handling = textBoxPlantHandling.Text;
+			var editedplant = new PlantModel()
+			{
+				Name = textBoxPlantName.Text,
+				Link = textBoxPlantLink.Text,
+				Description = textBoxPlantDesc.Text,
+				Handling = textBoxPlantHandling.Text
+			};
 
-			_ctx.SaveChanges();
+			new PlantWorker().EditPlantByName(editedplant);
+
+			
 
 
 			ChangeEnabledOfRightSide(enabled: false);
 			ChangeStateBotButtons(enabled: true);
 			buttonSave.Visible = false;
+
+			UpdatePlantsListBox();
+
 		}
 
 		private void SetFirstItemDisplayedAtStart()

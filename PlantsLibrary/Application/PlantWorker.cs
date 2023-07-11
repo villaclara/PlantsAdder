@@ -12,7 +12,10 @@ namespace PlantsLibrary.Application
 	{
 		private readonly ApplicationContext _context;
 
-		public PlantWorker(ApplicationContext context)
+		public PlantWorker() : this(new ApplicationContext())
+		{ }
+
+		private PlantWorker(ApplicationContext context)
 		{
 			_context = context;
 		}
@@ -31,9 +34,20 @@ namespace PlantsLibrary.Application
 			return true;
 		}
 
-		public bool EditPlantByName(string plantName)
+		public bool EditPlantByName(IPlantable plantModel)
 		{
-			throw new NotImplementedException();
+			
+			var pl = _context.Plants.FirstOrDefault(p => p.Id == plantModel.Id)!;
+			pl.Name = plantModel.Name;
+			pl.Description = plantModel.Description;
+			pl.Link = plantModel.Link;
+			pl.Handling = plantModel.Handling;
+
+
+
+			_context.SaveChanges();
+
+			return true;
 		}
 
 		public List<PlantModel> GetAllPlants()

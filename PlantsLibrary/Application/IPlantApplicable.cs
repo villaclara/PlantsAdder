@@ -12,7 +12,7 @@ namespace PlantsLibrary.Application
 	{
 		Task<bool> AddPlantToDBAsync(IPlantable plantModel);
 		
-		bool EditPlantByName(string plantName);
+		bool EditPlantByName(IPlantable plantModel);
 		
 		Task<bool> DeletePlantByName(IPlantable plantModel);
 

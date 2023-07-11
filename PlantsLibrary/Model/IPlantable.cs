@@ -8,6 +8,7 @@ namespace PlantsLibrary.Model
 {
 	public interface IPlantable : IPlantHandlingable
 	{
+		int Id { get; }
 		string Name { get; set; }
 		string Link { get; set; }
 		string Description { get; set; }
